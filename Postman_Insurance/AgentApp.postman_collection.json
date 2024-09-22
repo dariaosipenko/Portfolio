@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "80422a0e-28b9-44ed-b91e-e4d5c544770b",
+		"name": "AgentApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12564177"
+	},
+	"item": [
+		{
+			"name": "GET Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"username\": \"{{login}}\",\r\n\"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/{{api_version}}/users/obtain-token",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{api_version}}",
+						"users",
+						"obtain-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание водителя",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"driver_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"Проверка, что в ответе есть параметр kbm_value\", function () {\r",
+							"    pm.expect(pm.response.text(jsonData)).to.include(\"kbm_value\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Проверка, что в ответе есть параметр is_rsa_checked\", function () {\r",
+							"    pm.expect(pm.response.text(jsonData)).to.include(\"is_rsa_checked\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"first_name\": \"Иван\",\r\n  \"last_name\": \"Иванов\",\r\n  \"patronymic\": \"Иванович\",\r\n  \"birth_date\": \"1990-01-01\",\r\n  \"driving_experience_started\": \"2010-10-10\",\r\n  \"driver_licenses\": [\r\n    {\r\n      \"credential_type\": \"DRIVER_LICENSE\",\r\n      \"number\": \"012345\",\r\n      \"series\": \"1234\",\r\n      \"issue_date\": \"2010-10-10\"\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/drivers",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{api_version}}",
+						"insured_objects",
+						"drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание собственника",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"owner_id\", jsonData.person);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"last_name\": \"Мыльников\",\r\n  \"first_name\": \"Андрей\",\r\n  \"patronymic\": \"Александрович\",\r\n  \"gender\": \"M\",\r\n  \"birth_date\": \"1985-03-04\",\r\n  \"credential\": [\r\n    {\r\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\r\n      \"issue_date\": \"2017-03-08\",\r\n      \"issue_point\": \"УФМС\",\r\n      \"issue_point_code\": \"123-456\",\r\n      \"number\": \"135678\",\r\n      \"series\": \"1234\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\r\n      \"address_type\": \"LEGAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    },\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, Невский пр, д 21, кв 12\",\r\n      \"address_type\": \"ACTUAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/v1/insured_objects/owners/natural_persons",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"insured_objects",
+						"owners",
+						"natural_persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание страхователя",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"insurant_id\", jsonData.person);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"last_name\": \"Мыльников\",\r\n  \"first_name\": \"Андрей\",\r\n  \"patronymic\": \"Александрович\",\r\n  \"gender\": \"M\",\r\n  \"birth_date\": \"1985-03-04\",\r\n  \"credential\": [\r\n    {\r\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\r\n      \"issue_date\": \"2017-03-08\",\r\n      \"issue_point\": \"УФМС\",\r\n      \"issue_point_code\": \"123-456\",\r\n      \"number\": \"135678\",\r\n      \"series\": \"1234\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\r\n      \"address_type\": \"LEGAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    },\r\n    {\r\n      \"address_query\": \"г Санкт-Петербург, Невский пр, д 21, кв 12\",\r\n      \"address_type\": \"ACTUAL_ADDRESS\",\r\n      \"region_kladr_id\": \"7800000000000\",\r\n      \"city_kladr_id\": \"7800000600000\"\r\n    }\r\n  ],\r\n  \"contact\": [\r\n            {\r\n                \"contact_type\": \"EMAIL\",\r\n                \"data\": \"dasha@m.ru\",\r\n                \"comment\": null\r\n            },\r\n            {\r\n                \"contact_type\": \"PHONE\",\r\n                \"data\": \"+7 (877) 222-45-99\",\r\n                \"comment\": null\r\n            }\r\n        ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/insurants/natural_persons",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{api_version}}",
+						"insured_objects",
+						"insurants",
+						"natural_persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание автомобиля",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"engine_power\", jsonData.engine_power);\r",
+							"pm.environment.set(\"has_car_trailer\", jsonData.has_trailer);\r",
+							"pm.environment.set(\"car_type\", jsonData.car_type);\r",
+							"pm.environment.set(\"car_id\", jsonData.id);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"car_model_id\": 864026180,\r\n  \"engine_power\": 211,\r\n  \"chassis_number\": \"234WER92837477281\",\r\n  \"car_body_number\": \"М909ММ178\",\r\n  \"vin_number\": \"WAUZZZ8T4BA037241\",\r\n  \"number_plate\": \"Р904МХ178\",\r\n  \"manufacturing_year\": 2010,\r\n  \"max_mass\": null,\r\n  \"credential\": [\r\n    {\r\n      \"credential_type\": \"VEHICLE_REGISTRATION\",\r\n      \"issue_date\": \"2010-11-01\",\r\n      \"number\": \"267461\",\r\n      \"series\": \"78УН\"\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/v3/insured_objects/cars",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v3",
+						"insured_objects",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Объединение субъектов и объектов страхования в одну сущность “объект страхования”",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"insured_object\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"drivers\":\r\n   [\r\n    \"{{driver_id}}\"\r\n   ],\r\n\"owner\": \"{{owner_id}}\",\r\n\"car\": \"{{car_id}}\",\r\n\"insurant\": \"{{insurant_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{api_version}}",
+						"insured_objects",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание договора",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"agreement_id\", jsonData.id);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authority",
+						"value": "partner.agentapp.ru"
+					},
+					{
+						"key": "accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7"
+					},
+					{
+						"key": "authorization",
+						"value": "Token a95a0b66bc8df22e371669a7bc8ea6b4f88f2c11"
+					},
+					{
+						"key": "cache-control",
+						"value": "no-cache"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "cookie",
+						"value": "AMP_MKTG_10c012db0a=JTdCJTdE; __ddg1_=DiKxonZMsdugoDdOdc2v; _ym_uid=1724312993170777194; _ym_d=1724312993; _ym_isad=1; _ym_visorc=w; AMP_10c012db0a=JTdCJTIyZGV2aWNlSWQlMjIlM0ElMjIxMmIxMjE1Zi1kM2JlLTRhMWEtYjQ5NS05NTY0YjlkMGRhNjElMjIlMkMlMjJzZXNzaW9uSWQlMjIlM0ExNzI0MzEyOTc1MzY4JTJDJTIyb3B0T3V0JTIyJTNBZmFsc2UlMkMlMjJsYXN0RXZlbnRUaW1lJTIyJTNBMTcyNDMxNDA3NzgyNCUyQyUyMmxhc3RFdmVudElkJTIyJTNBMjMlN0Q="
+					},
+					{
+						"key": "origin",
+						"value": "https://partner.agentapp.ru"
+					},
+					{
+						"key": "referer",
+						"value": "https://partner.agentapp.ru/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Windows\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"has_car_trailer\": {{has_car_trailer}},\r\n    \"car_type\": \"{{car_type}}\",\r\n    \"drivers_ids\": [\r\n        \"{{driver_id}}\"\r\n    ],\r\n    \"engine_power\": \"{{engine_power}}\",\r\n    \"insurance_period\": 8,\r\n    \"insured_object\": \"{{insured_object}}\",\r\n    \"owner_registration\": {\r\n        \"address_query\": \"117292, г Москва, ул Дмитрия Ульянова, д 24, кв. 12\",\r\n        \"area\": null,\r\n        \"area_fias_id\": null,\r\n        \"area_kladr_id\": null,\r\n        \"area_with_type\": null,\r\n        \"block\": null,\r\n        \"block_type\": null,\r\n        \"city\": \"Москва\",\r\n        \"city_district\": null,\r\n        \"city_district_fias_id\": null,\r\n        \"city_district_kladr_id\": null,\r\n        \"city_district_type\": null,\r\n        \"city_district_type_full\": null,\r\n        \"city_district_with_type\": null,\r\n        \"city_fias_id\": \"0c5b2444-70a0-4932-980c-b4dc0d3f02b5\",\r\n        \"city_kladr_id\": \"7700000000000\",\r\n        \"city_with_type\": \"г Москва\",\r\n        \"country\": \"Россия\",\r\n        \"fias_code\": null,\r\n        \"fias_id\": \"1ac773fe-d39f-4f8d-9f1e-bc448684e1e3\",\r\n        \"fias_level\": \"8\",\r\n        \"flat\": \"12\",\r\n        \"flat_type\": \"кв\",\r\n        \"house\": \"24\",\r\n        \"house_fias_id\": \"1ac773fe-d39f-4f8d-9f1e-bc448684e1e3\",\r\n        \"house_kladr_id\": \"7700000000029640001\",\r\n        \"house_type\": \"д\",\r\n        \"kladr_id\": \"7700000000029640001\",\r\n        \"okato\": \"45293554000\",\r\n        \"postal_code\": \"117292\",\r\n        \"region\": \"Москва\",\r\n        \"region_fias_id\": \"0c5b2444-70a0-4932-980c-b4dc0d3f02b5\",\r\n        \"region_kladr_id\": \"7700000000000\",\r\n        \"region_with_type\": \"г Москва\",\r\n        \"settlement\": null,\r\n        \"settlement_fias_id\": null,\r\n        \"settlement_kladr_id\": null,\r\n        \"settlement_with_type\": null,\r\n        \"street\": \"Дмитрия Ульянова\",\r\n        \"street_fias_id\": \"5c98ab12-a4e9-4a94-a08c-5c41469aeb1f\",\r\n        \"street_kladr_id\": \"77000000000296400\",\r\n        \"street_with_type\": \"ул Дмитрия Ульянова\",\r\n        \"address_type\": \"LEGAL_ADDRESS\",\r\n        \"is_without_flat\": false\r\n    },\r\n    \"target_of_using\": 11,\r\n    \"valid_from\": \"2024-09-26\",\r\n    \"valid_to\": \"2025-09-25\",\r\n    \"is_car_without_registration\": false,\r\n    \"with_ic_calculation\": false,\r\n    \"periods\": [\r\n    {\r\n    \"start_date\": \"2024-09-26\",\r\n    \"end_date\": \"2025-04-26\"\r\n    }\r\n\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/v3/agreements/calculations",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v3",
+						"agreements",
+						"calculations"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://partner.agentapp.ru/v3/agreements/calculations' \\\r\n  -H 'authority: partner.agentapp.ru' \\\r\n  -H 'accept: application/json, text/plain, */*' \\\r\n  -H 'accept-language: en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7' \\\r\n  -H 'authorization: Token a95a0b66bc8df22e371669a7bc8ea6b4f88f2c11' \\\r\n  -H 'cache-control: no-cache' \\\r\n  -H 'content-type: application/json' \\\r\n  -H 'cookie: AMP_MKTG_10c012db0a=JTdCJTdE; __ddg1_=DiKxonZMsdugoDdOdc2v; _ym_uid=1724312993170777194; _ym_d=1724312993; _ym_isad=1; _ym_visorc=w; AMP_10c012db0a=JTdCJTIyZGV2aWNlSWQlMjIlM0ElMjIxMmIxMjE1Zi1kM2JlLTRhMWEtYjQ5NS05NTY0YjlkMGRhNjElMjIlMkMlMjJzZXNzaW9uSWQlMjIlM0ExNzI0MzEyOTc1MzY4JTJDJTIyb3B0T3V0JTIyJTNBZmFsc2UlMkMlMjJsYXN0RXZlbnRUaW1lJTIyJTNBMTcyNDMxNDA3NzgyNCUyQyUyMmxhc3RFdmVudElkJTIyJTNBMjMlN0Q=' \\\r\n  -H 'origin: https://partner.agentapp.ru' \\\r\n  -H 'referer: https://partner.agentapp.ru/' \\\r\n  -H 'sec-ch-ua: \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"' \\\r\n  -H 'sec-ch-ua-mobile: ?0' \\\r\n  -H 'sec-ch-ua-platform: \"Windows\"' \\\r\n  -H 'sec-fetch-dest: empty' \\\r\n  -H 'sec-fetch-mode: cors' \\\r\n  -H 'sec-fetch-site: same-origin' \\\r\n  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' \\\r\n  --data-raw '{\"has_car_trailer\":false,\"car_type\":\"B\",\"drivers_ids\":[\"58d1977f-9a0d-478f-a01c-8519206903ac\"],\"engine_power\":211,\"insurance_period\":8,\"insured_object\":\"9fdd9fc0-c54a-4dea-893c-6dcf2cb21f80\",\"owner_registration\":{\"address_query\":\"117292, г Москва, ул Дмитрия Ульянова, д 24, кв. 12\",\"area\":null,\"area_fias_id\":null,\"area_kladr_id\":null,\"area_with_type\":null,\"block\":null,\"block_type\":null,\"city\":\"Москва\",\"city_district\":null,\"city_district_fias_id\":null,\"city_district_kladr_id\":null,\"city_district_type\":null,\"city_district_type_full\":null,\"city_district_with_type\":null,\"city_fias_id\":\"0c5b2444-70a0-4932-980c-b4dc0d3f02b5\",\"city_kladr_id\":\"7700000000000\",\"city_with_type\":\"г Москва\",\"country\":\"Россия\",\"fias_code\":null,\"fias_id\":\"1ac773fe-d39f-4f8d-9f1e-bc448684e1e3\",\"fias_level\":\"8\",\"flat\":\"12\",\"flat_type\":\"кв\",\"house\":\"24\",\"house_fias_id\":\"1ac773fe-d39f-4f8d-9f1e-bc448684e1e3\",\"house_kladr_id\":\"7700000000029640001\",\"house_type\":\"д\",\"kladr_id\":\"7700000000029640001\",\"okato\":\"45293554000\",\"postal_code\":\"117292\",\"region\":\"Москва\",\"region_fias_id\":\"0c5b2444-70a0-4932-980c-b4dc0d3f02b5\",\"region_kladr_id\":\"7700000000000\",\"region_with_type\":\"г Москва\",\"settlement\":null,\"settlement_fias_id\":null,\"settlement_kladr_id\":null,\"settlement_with_type\":null,\"street\":\"Дмитрия Ульянова\",\"street_fias_id\":\"5c98ab12-a4e9-4a94-a08c-5c41469aeb1f\",\"street_kladr_id\":\"77000000000296400\",\"street_with_type\":\"ул Дмитрия Ульянова\",\"address_type\":\"LEGAL_ADDRESS\",\"is_without_flat\":false},\"target_of_using\":11,\"valid_from\":\"2024-08-26\",\"valid_to\":\"2025-08-25\",\"is_car_without_registration\":false,\"with_ic_calculation\":false}' \\\r\n  --compressed"
+			},
+			"response": []
+		},
+		{
+			"name": "Обновление Договора",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"insured_object\": \"{{insured_object}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{api_version}}",
+						"agreements",
+						"{{agreement_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение полного расчёт по СК",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/TEST_COMPANY",
+					"protocol": "{{http_schema}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{api_version}}",
+						"agreements",
+						"{{agreement_id}}",
+						"results",
+						"TEST_COMPANY"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "Token {{token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
