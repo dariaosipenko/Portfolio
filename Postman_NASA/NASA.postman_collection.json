@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "b7d393ae-33b3-42aa-9aff-a80e66d3e4cb",
+		"name": "NASA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12564177"
+	},
+	"item": [
+		{
+			"name": "Photo Curiosity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let bodyres = pm.response.json()\r",
+							"console.log(bodyres)\r",
+							"var photo2_id = bodyres.photos[1].id \r",
+							"console.log(photo2_id) \r",
+							"pm.environment.set(\"cur_photo2_id\", photo2_id);\r",
+							"\r",
+							"var camera_name = bodyres.photos[2].camera.name \r",
+							"console.log(camera_name)\r",
+							"pm.environment.set(\"cur_camera_name\", camera_name);\r",
+							"\r",
+							"var rover_name = bodyres.photos[2].rover.name \r",
+							"console.log(rover_name)\r",
+							"pm.environment.set(\"cur_rover_name\", rover_name);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2022-1-21",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"mars-photos",
+						"api",
+						"v1",
+						"rovers",
+						"curiosity",
+						"photos"
+					],
+					"query": [
+						{
+							"key": "earth_date",
+							"value": "2022-1-21"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Photo Opportunity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let bodyres = pm.response.json()\r",
+							"console.log(bodyres)\r",
+							"var photo2_id = bodyres.photos[1].id \r",
+							"console.log(photo2_id) \r",
+							"pm.environment.set(\"opp_photo2_id\", photo2_id);\r",
+							"\r",
+							"var camera_name = bodyres.photos[2].camera.name \r",
+							"console.log(camera_name)\r",
+							"pm.environment.set(\"opp_camera_name\", camera_name);\r",
+							"\r",
+							"var rover_name = bodyres.photos[2].rover.name \r",
+							"console.log(rover_name)\r",
+							"pm.environment.set(\"opp_rover_name\", rover_name);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date=2014-1-21",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"mars-photos",
+						"api",
+						"v1",
+						"rovers",
+						"opportunity",
+						"photos"
+					],
+					"query": [
+						{
+							"key": "earth_date",
+							"value": "2014-1-21"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Photo Spirit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let bodyres = pm.response.json()\r",
+							"console.log(bodyres)\r",
+							"var photo2_id = bodyres.photos[1].id \r",
+							"console.log(photo2_id) \r",
+							"pm.environment.set(\"sp_photo2_id\", photo2_id);\r",
+							"\r",
+							"var camera_name = bodyres.photos[2].camera.name \r",
+							"console.log(camera_name)\r",
+							"pm.environment.set(\"sp_camera_name\", camera_name);\r",
+							"\r",
+							"var rover_name = bodyres.photos[2].rover.name \r",
+							"console.log(rover_name)\r",
+							"pm.environment.set(\"sp_rover_name\", rover_name);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?earth_date=2006-1-21",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"mars-photos",
+						"api",
+						"v1",
+						"rovers",
+						"spirit",
+						"photos"
+					],
+					"query": [
+						{
+							"key": "earth_date",
+							"value": "2006-1-21"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "api_key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
